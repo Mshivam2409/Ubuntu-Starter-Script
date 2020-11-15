@@ -81,7 +81,7 @@ alias cprun="g++ -Wall  -fsanitize=address -fsanitize=undefined  main.cpp -o mai
 alias clksync="sudo ntpdate time.windows.com"
 alias memfree="echo 1 | sudo tee /proc/sys/vm/drop_caches"
 alias getip="ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
-alias jupyter-cpp="docker run -p 5000:8888 -v /mnt/c/Users/shiva/OneDrive/Documents/ESO207A/:/home/jovyan/eso207/ b0hr/cling-notebook"
+alias jupyter-cpp="docker run -p 5000:8888 b0hr/cling-notebook"
 alias jupyter-go="docker run -it -p 5001:8888 gopherdata/gophernotes"
 # Functions
 cpx(){
