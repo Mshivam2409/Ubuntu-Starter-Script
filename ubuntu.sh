@@ -71,5 +71,34 @@ sudo apt install tlpui
 sudo apt-get install grub-customizer
 #Aliases
 touch ~/.bash_aliases
-echo "alias portl=\"sudo lsof -i -P -n | grep LISTEN\"" >> ~/.bash_aliases
-echo "alias cprun=\"g++ -Wall  -fsanitize=address -fsanitize=undefined  main.cpp -o main && ./main\"" >> ~/.bash_aliases
+cat >> ~/.bash_aliases << "EOF"
+# Aliases
+alias jupyter-notebook="~/miniconda3/bin/jupyter-notebook --no-browser"
+alias explorer="explorer.exe ."
+alias portall="sudo lsof -i -P -n"
+alias portl="sudo lsof -i -P -n | grep LISTEN"
+alias cprun="g++ -Wall  -fsanitize=address -fsanitize=undefined  main.cpp -o main && ./main"
+alias clksync="sudo ntpdate time.windows.com"
+alias memfree="echo 1 | sudo tee /proc/sys/vm/drop_caches"
+alias getip="ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
+alias jupyter-cpp="docker run -p 5000:8888 -v /mnt/c/Users/shiva/OneDrive/Documents/ESO207A/:/home/jovyan/eso207/ b0hr/cling-notebook"
+alias jupyter-go="docker run -it -p 5001:8888 gopherdata/gophernotes"
+# Functions
+cpx(){
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: cpx <file.cpp>"
+    else
+        name=$(echo $1 | cut -f 1 -d '.')
+        g++ -Wall  -fsanitize=address -fsanitize=undefined -ggdb3  $1 -o $name; ./$name
+    fi
+}
+debug(){
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: cpx <file.cpp>"
+    else
+        name=$(echo $1 | cut -f 1 -d '.')
+        g++ -Wall -ggdb3  $1 -o $name; 
+        valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out-$name.txt ./$name 
+    fi
+}
+EOF
